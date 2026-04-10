@@ -1,88 +1,68 @@
-# pokemon-planilha-api
+# pokeprof-api
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Este projeto é uma API desenvolvida para a disciplina de Sistemas Multimídias, sob orientação do professor Dario Calçada, na UESPI-PHB. A aplicação utiliza gamificação baseada no universo Pokémon para gerenciar o progresso acadêmico de alunos.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Descrição
 
-## Running the application in dev mode
+A API permite que professores lancem notas para atividades específicas. À medida que os alunos acumulam pontos, seus respectivos Pokémons evoluem automaticamente, seguindo regras de negócio baseadas em pontuações pré-definidas.
 
-You can run your application in dev mode that enables live coding using:
+## Tecnologias
 
-```shell script
+*   Java 21
+*   Quarkus Framework (3.x)
+*   Hibernate Panache (ORM)
+*   PostgreSQL (Banco de dados)
+*   Jackson (Serialização JSON)
+
+## Requisitos
+
+*   JDK 21 ou superior
+*   Maven 3.9+
+*   Instância do PostgreSQL ativa
+
+## Configuração
+
+1. Clone o repositório
+2. Configure as credenciais do banco de dados no arquivo `src/main/resources/application.properties`:
+
+```properties
+quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/nome_do_banco
+quarkus.datasource.username=seu_usuario
+quarkus.datasource.password=sua_senha
+```
+
+3. Execute a aplicação em modo de desenvolvimento:
+
+```bash
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+## Endpoints da API
 
-## Packaging and running the application
+### Alunos (`/alunos`)
+*   `POST /alunos`: Cadastra um novo aluno e seu Pokémon inicial.
+*   `GET /alunos`: Lista todos os alunos ativos no sistema.
+*   `GET /alunos/{id}/pontos`: Retorna o ID e a soma total de pontos de um aluno específico.
+*   `GET /alunos/ranking`: Retorna o ranking de alunos (suporta filtros por `pokemonNome` e `atividadeId`).
+*   `GET /alunos/{id}/notas`: Retorna o histórico completo de notas de um aluno.
 
-The application can be packaged using:
+### Atividades (`/atividades`)
+*   `POST /atividades`: Registra uma nova atividade (ex: Prova, Trabalho).
+*   `GET /atividades`: Lista todas as atividades cadastradas no banco de dados.
 
-```shell script
-./mvnw package
-```
+### Notas (`/notas`)
+*   `POST /notas`: Lança uma nota para um aluno em uma atividade específica. Este endpoint aciona a lógica de evolução e retorna um objeto detalhando o estado atual do aluno e se houve mudança de estágio do Pokémon.
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+## Estrutura do Projeto
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+*   `model`: Entidades JPA que representam as tabelas do banco de dados.
+*   `dto`: Objetos de transferência de dados para requisições e respostas limpas.
+*   `resource`: Endpoints REST da aplicação.
+*   `service`: Lógica de negócio, incluindo o motor de evolução.
 
-If you want to build an _über-jar_, execute the following command:
+## Créditos
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/pokemon-planilha-api-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- Hibernate Validator ([guide](https://quarkus.io/guides/validation)): Validate object properties (field, getter) and method parameters for your beans (REST, CDI, Jakarta Persistence)
-- REST Client ([guide](https://quarkus.io/guides/rest-client)): Call REST services
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST Client
-
-Invoke different services through REST with JSON
-
-[Related guide section...](https://quarkus.io/guides/rest-client)
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
-# pokeprof-api
+Desenvolvido como atividade prática para a disciplina de Sistemas Multimídias.<br>
+Instituição: Universidade Estadual do Piauí (UESPI).<br>
+Campus: Parnaíba (PHB).<br>
+Professor: Dario Calçada.
